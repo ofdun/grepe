@@ -9,7 +9,7 @@ git clone https://github.com/ofdun/grepe.git
 ```
 2. Run makefile using make in main directory
 ```console
-make
+make install
 ```
 
 ## Usage <a name="usage"></a>
