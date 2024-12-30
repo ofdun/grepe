@@ -1,13 +1,18 @@
-APP_NAME = grepe
-VERSION = 0.1
-BUILD_DIR = build
-SRC_DIR = ./
-BIN_DIR = /usr/local/bin
-MAN_DIR = /usr/share/man/man1
-GO = go
+APP_NAME := grepe
+VERSION := 0.1
+BUILD_DIR := build
+SRC_DIR := ./
+BIN_DIR := /usr/local/bin
+MAN_DIR := /usr/share/man/man1
+TESTS_DIR := ./tests
+GO := go
 LINT_UTIL := golangci-lint
 
 all: build
+
+test:
+	@echo "Testing..."
+	$(GO) test ./internal/parsers -cover
 
 lint:
 	@echo "Linting..."
