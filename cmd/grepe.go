@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	"errors"
 	"github.com/spf13/cobra"
 	myio "grepe/internal/io"
 	"grepe/internal/parsers"
 	"io"
 	"os"
+	re "regexp"
 )
 
 const (
@@ -15,38 +15,29 @@ const (
 	ArgsLenWithFilename = 2
 )
 
-var (
-	InvalidArgsQuantityError = errors.New("too many args")
-)
-
 var rootCmd = &cobra.Command{
 	Use:   "grepe",
 	Short: "grepe is short for grep-extended",
-	Long: `grepe utility searches any given input files, selecting lines 
-				that match one or more patterns.`,
+	Long:  `grepe utility searches any given input files, selecting lines that match one or more patterns.`,
+	Args:  cobra.RangeArgs(MinArgs, MaxArgs),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if len(args) > MaxArgs || len(args) < MinArgs {
-			return InvalidArgsQuantityError
-		}
-
 		var reader io.Reader
 		var err error
 		if reader, err = parseFileArgument(args); err != nil {
 			return err
 		}
 
-		pattern := args[0]
-		result, err := parsers.FindInText(reader, pattern)
+		pattern, err := re.Compile(args[0])
 		if err != nil {
 			return err
 		}
 
-		indexes, err := parsers.GetMatchIndexesArray(result, pattern)
+		matchingRows, indexes, err := parsers.GetMatchIndexesArray(reader, pattern)
 		if err != nil {
 			return err
 		}
 
-		myio.PrintPatternMatchesColorful(indexes, result, len(pattern))
+		myio.PrintPatternMatchesColorful(matchingRows, indexes)
 
 		return nil
 	},

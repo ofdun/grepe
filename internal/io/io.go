@@ -1,17 +1,16 @@
 package io
 
-import "fmt"
-
-func PrintPatternMatchesColorful(indexes *[][]int, strs *[]string, patternLength int) {
+func PrintPatternMatchesColorful(text *[]string, matches *[][][]int) {
 	green := "\033[32m"
 	reset := "\033[0m"
 
-	for i, str := range *strs {
+	for i, str := range *text {
+		curMatches := (*matches)[i]
 		prev := 0
-		for _, val := range (*indexes)[i] {
-			fmt.Print(str[prev:val] + green + str[val:(val+patternLength)] + reset)
-			prev = val + patternLength
+		for _, pair := range curMatches {
+			print(str[prev:pair[0]], green, str[pair[0]:pair[1]], reset)
+			prev = pair[1]
 		}
-		fmt.Println(str[prev:])
+		println(str[prev:])
 	}
 }

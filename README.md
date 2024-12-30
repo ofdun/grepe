@@ -34,8 +34,7 @@ apple
 aboba
 ape
 
->>> grepe ap example.txt
-apple
-ape
+>>> grepe "^a[a-z]+a$" example.txt
+aboba
 ```
 
