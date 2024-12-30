@@ -42,6 +42,8 @@ clean:
 help:
 	@echo "Usage:"
 	@echo "  make build        - Build the application"
+	@echo "  make test         - Test the application"
+	@echo "  make lint         - Run linter"
 	@echo "  make install      - Install the application"
 	@echo "  make uninstall    - Uninstall the application"
 	@echo "  make clean        - Clean build files"
